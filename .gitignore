@@ -1,3 +1,6 @@
 .vscode/
 bin/
 .envrc
+.idea/
+out/
+*.iml
