@@ -8,11 +8,11 @@ public class CA {
 
     public CA(City[] cities) {}
 
-    void addRoad(String city1, String city2) {}
+    public void addRoad(String city1, String city2) {}
 
-    void addChargingPoint(String city) {}
+    public void addChargingPoint(String city) {}
 
-    void removeChargingPoint(String city) {}
+    public void removeChargingPoint(String city) {}
 
-    void algo1() {}
+    public void algo1() {}
 }

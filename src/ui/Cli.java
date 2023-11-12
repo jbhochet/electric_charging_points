@@ -19,6 +19,7 @@ public class Cli {
 
     /**
      * Create a new instance with this Scanner used to read input.
+     * 
      * @param sc The Scanner instance for reading input.
      */
     public Cli(Scanner sc) {
@@ -27,6 +28,7 @@ public class Cli {
 
     /**
      * Get an integer from the user.
+     * 
      * @param message The message that prints on the console for the user.
      * @return The integer entered by the user.
      */
@@ -38,6 +40,7 @@ public class Cli {
             try {
                 System.out.println(message);
                 res = sc.nextInt();
+                sc.nextLine();
                 valid = true;
             } catch (InputMismatchException err) {
                 System.out.println("You must provide an integer!");
@@ -50,6 +53,7 @@ public class Cli {
 
     /**
      * Get cities from the user and return an array.
+     * 
      * @return The array of cities.
      */
     private City[] readCities() {
@@ -58,9 +62,9 @@ public class Cli {
 
         // Ask the number of cities
         do {
-            nbCities = readInt("How many city do you want to have?");
+            nbCities = readInt("How many cities do you want to have?");
             // Check if the number is valid
-            if(nbCities < 1 || nbCities > 26) {
+            if (nbCities < 1 || nbCities > 26) {
                 System.out.println("The number of cities must be between 1 and 26 included!");
                 nbCities = 0; // We will ask again
             }
@@ -69,18 +73,51 @@ public class Cli {
         cities = new City[nbCities];
 
         // Create cities with letters
-        for(char c='A'; c<'A'+nbCities; c++) {
-            cities[c-'A'] = new City(String.valueOf(c));
+        for (char c = 'A'; c < 'A' + nbCities; c++) {
+            cities[c - 'A'] = new City(String.valueOf(c));
         }
 
         return cities;
     }
 
-    private void roadManagerMenu() {}
+    /**
+     * Lets the user create road between cities.
+     */
+    private void roadManagerMenu() {
+        int choice;
 
-    private void chargingPointManagerMenu() {}
+        do {
+            System.out.println("1) Add a road");
+            System.out.println("2) Finish");
+            choice = readInt("What do you want to do ?");
+            switch (choice) {
+                case 1:
+                    String city1, city2;
+                    System.out.println("What is the first city?");
+                    city1 = sc.nextLine();
+                    System.out.println("What is the second city?");
+                    city2 = sc.nextLine();
+                    try {
+                        ca.addRoad(city1, city2);
+                        System.out.println("Road added!");
+                    } catch (IllegalArgumentException err) {
+                        System.out.println("The cities are not valid!");
+                    }
+                    break;
+                case 2:
+                    System.out.println("Roads are defined!");
+                    break;
+                default:
+                    System.out.println("Unknown action!");
+            }
+        } while (choice != 2);
+    }
 
-    private void showCitiesWithChargingPoint() {}
+    private void chargingPointManagerMenu() {
+    }
+
+    private void showCitiesWithChargingPoint() {
+    }
 
     /**
      * Start the command line interface to interact with the user.
@@ -92,6 +129,7 @@ public class Cli {
         cities = readCities();
 
         // Create CA
+        ca = new CA(cities);
 
         // Launch road manager menu
         roadManagerMenu();
