@@ -121,6 +121,7 @@ public class Cli {
         String city;
 
         do {
+            System.out.println(urbanCommunity);
             System.out.println("Do you want to edit charging point?");
             System.out.println("1) Add a charging point");
             System.out.println("2) Remove a charging point");
@@ -156,9 +157,7 @@ public class Cli {
             }
             System.out.println();
         } while (choice != 3);
-    }
-
-    private void showCitiesWithChargingPoint() {
+        System.out.println(urbanCommunity);
     }
 
     /**
