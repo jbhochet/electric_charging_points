@@ -129,14 +129,24 @@ public class Cli {
             choice = readInt("Enter your selection:");
             switch (choice) {
                 case 1:
+                    // User wants to add a charging point
                     System.out.println("Enter the name of the city:");
                     city = sc.nextLine();
-                    urbanCommunity.addChargingPoint(city);
+                    try {
+                        urbanCommunity.addChargingPoint(city);
+                    } catch (IllegalArgumentException err) {
+                        System.out.println("The cities are not valid!");
+                    }
                     break;
                 case 2:
+                    // User wants to remove a charging point
                     System.out.println("Enter the name of the city:");
                     city = sc.nextLine();
-                    urbanCommunity.removeChargingPoint(city);
+                    try {
+                        urbanCommunity.removeChargingPoint(city);
+                    } catch (IllegalArgumentException err) {
+                        System.out.println("The cities are not valid!");
+                    }
                     break;
                 case 3:
                     System.out.println("Charging points are defined!");
