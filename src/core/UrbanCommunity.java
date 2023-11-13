@@ -8,15 +8,58 @@ public class UrbanCommunity {
 
     public UrbanCommunity(City[] cities) {
         this.cities = cities;
+        graph = new Graph(cities.length);
     }
 
     public void addRoad(String city1, String city2) {
+        int city1Index = getCityIndex(city1);
+        int city2Index = getCityIndex(city2);
 
+        if (city1Index == -1 || city2Index == -1) {
+            throw new IllegalArgumentException("One of the parameters is not in the list 'cities'");
+        }
+        if (city1Index == city2Index) {
+            throw new IllegalArgumentException("You cannot add a road between the same city");
+        }
+
+        graph.addEdge(city1Index, city2Index);
     }
 
-    public void addChargingPoint(String city) {}
+    public void addChargingPoint(String city) {
+        int indexCity = getCityIndex(city);
 
-    public void removeChargingPoint(String city) {}
+        if (indexCity == -1) {
+            throw new IllegalArgumentException("The parameter is not in the list 'cities'");
+        }
 
-    public void algo1() {}
+        cities[indexCity].addChargingPoint();
+    }
+
+    public void removeChargingPoint(String city) {
+        int indexCity = getCityIndex(city);
+
+        if (indexCity == -1) {
+            throw new IllegalArgumentException("The parameter is not in the list 'cities'");
+        }
+
+        cities[indexCity].removeChargingPoint();
+    }
+
+    public void naiveAlgorithm() {
+        for (City city : cities) {
+            city.addChargingPoint();
+        }
+    }
+
+    public int getCityIndex(String city) {
+        int cityIndex = -1;
+        for (int i = 0; i < cities.length; i++) {
+            if (cities[i].getName().equals(city)) {
+                cityIndex = i;
+                return cityIndex;
+            }
+        }
+
+        return cityIndex;
+    }
 }

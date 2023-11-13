@@ -168,7 +168,7 @@ public class Cli {
 
         System.out.println();
 
-        urbanCommunity.algo1();
+        urbanCommunity.naiveAlgorithm();
 
         // Launch changing point menu
         chargingPointManagerMenu();
