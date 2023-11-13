@@ -12,6 +12,17 @@ public class UrbanCommunity {
         graph = new Graph(cities.length);
     }
 
+    /**
+     * Add a road between two cities given in parameter.
+     * If one of the two cities given in parameter is not in the list "cities",
+     * the method throws an Exception.
+     * If the cities given in parameter are the same cities (they have the same index),
+     * the methode throws an Exception.
+     * @param city1 The name of the first city.
+     * @param city2 The name of the second city.
+     * @throws IllegalArgumentException If one of the two cities given in parameter is not in the list "cities".
+     *                                  If the cities given in parameter are the same cities (they have the same index).
+     */
     public void addRoad(String city1, String city2) {
         int city1Index = getCityIndex(city1);
         int city2Index = getCityIndex(city2);
@@ -26,6 +37,10 @@ public class UrbanCommunity {
         graph.addEdge(city1Index, city2Index);
     }
 
+    /**
+     * Add a charging point to the city whose name is given in parameter.
+     * @param city The name of the city.
+     */
     public void addChargingPoint(String city) {
         int indexCity = getCityIndex(city);
 
@@ -36,6 +51,11 @@ public class UrbanCommunity {
         cities[indexCity].addChargingPoint();
     }
 
+    /**
+     * Remove the charging point to the city whose name is given in parameter.
+     * @param city The name of the city
+     * @throws AccessibilityException If the city you want to remove the charging point from does not have a neighbor possessing a charging point.
+     */
     public void removeChargingPoint(String city) throws AccessibilityException {
         int indexCity = getCityIndex(city);
 
@@ -67,6 +87,11 @@ public class UrbanCommunity {
         }
     }
 
+    /**
+     * Get the index of the city whose name is given in parameter.
+     * @param city The name of the city.
+     * @return -1 if the city does not exist - The index else
+     */
     public int getCityIndex(String city) {
         int cityIndex = -1;
         for (int i = 0; i < cities.length; i++) {
