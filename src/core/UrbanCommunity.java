@@ -62,4 +62,19 @@ public class UrbanCommunity {
 
         return cityIndex;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append("Display of the cities from this urban community :\n");
+        for (City city : cities) {
+            str.append(city.getName()).append(" : ");
+            if (city.hasCharginPoint()) {
+                str.append("does have a charging point\n");
+            } else
+                str.append("does not have a charging point\n");
+        }
+
+        return String.valueOf(str);
+    }
 }
