@@ -116,6 +116,9 @@ public class Cli {
         } while (choice != 2);
     }
 
+    /**
+     * Lets the user add charging points.
+     */
     private void chargingPointManagerMenu() {
         int choice;
         String city;
