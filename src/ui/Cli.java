@@ -68,6 +68,7 @@ public class Cli {
                 System.out.println("The number of cities must be between 1 and 26 included!");
                 nbCities = 0; // We will ask again
             }
+            System.out.println();
         } while (nbCities == 0);
 
         cities = new City[nbCities];
@@ -87,9 +88,10 @@ public class Cli {
         int choice;
 
         do {
+            System.out.println("Do you want to add roads?");
             System.out.println("1) Add a road");
             System.out.println("2) Finish");
-            choice = readInt("What do you want to do ?");
+            choice = readInt("Enter your selection:");
             switch (choice) {
                 case 1:
                     String city1, city2;
@@ -99,7 +101,7 @@ public class Cli {
                     city2 = sc.nextLine();
                     try {
                         urbanCommunity.addRoad(city1, city2);
-                        System.out.println("Road added!");
+                        System.out.printf("Road added between %s and %s.%n", city1, city2);
                     } catch (IllegalArgumentException err) {
                         System.out.println("The cities are not valid!");
                     }
@@ -110,10 +112,40 @@ public class Cli {
                 default:
                     System.out.println("Unknown action!");
             }
+            System.out.println();
         } while (choice != 2);
     }
 
     private void chargingPointManagerMenu() {
+        int choice;
+        String city;
+
+        do {
+            System.out.println("Do you want to edit charging point?");
+            System.out.println("1) Add a charging point");
+            System.out.println("2) Remove a charging point");
+            System.out.println("3) Finish");
+
+            choice = readInt("Enter your selection:");
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter the name of the city:");
+                    city = sc.nextLine();
+                    urbanCommunity.addChargingPoint(city);
+                    break;
+                case 2:
+                    System.out.println("Enter the name of the city:");
+                    city = sc.nextLine();
+                    urbanCommunity.removeChargingPoint(city);
+                    break;
+                case 3:
+                    System.out.println("Charging points are defined!");
+                    break;
+                default:
+                    System.out.println("Unknown action!");
+            }
+            System.out.println();
+        } while (choice != 3);
     }
 
     private void showCitiesWithChargingPoint() {
@@ -133,5 +165,12 @@ public class Cli {
 
         // Launch road manager menu
         roadManagerMenu();
+
+        System.out.println();
+
+        urbanCommunity.algo1();
+
+        // Launch changing point menu
+        chargingPointManagerMenu();
     }
 }

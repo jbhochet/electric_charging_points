@@ -7,8 +7,6 @@ public class App {
         Scanner sc = new Scanner(System.in);
         Cli cli = new Cli(sc);
 
-        System.out.println("Hello World!");
-
         cli.start();
 
         sc.close();
