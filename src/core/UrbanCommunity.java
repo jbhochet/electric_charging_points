@@ -2,13 +2,17 @@ package core;
 
 import graph.Graph;
 
-public class CA {
+public class UrbanCommunity {
     private Graph graph;
     private City[] cities;
 
-    public CA(City[] cities) {}
+    public UrbanCommunity(City[] cities) {
+        this.cities = cities;
+    }
 
-    public void addRoad(String city1, String city2) {}
+    public void addRoad(String city1, String city2) {
+
+    }
 
     public void addChargingPoint(String city) {}
 

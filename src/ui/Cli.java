@@ -1,6 +1,6 @@
 package ui;
 
-import core.CA;
+import core.UrbanCommunity;
 import core.City;
 
 import java.util.InputMismatchException;
@@ -15,7 +15,7 @@ public class Cli {
     /**
      * The agglomeration community to work with.
      */
-    private CA ca;
+    private UrbanCommunity urbanCommunity;
 
     /**
      * Create a new instance with this Scanner used to read input.
@@ -98,7 +98,7 @@ public class Cli {
                     System.out.println("What is the second city?");
                     city2 = sc.nextLine();
                     try {
-                        ca.addRoad(city1, city2);
+                        urbanCommunity.addRoad(city1, city2);
                         System.out.println("Road added!");
                     } catch (IllegalArgumentException err) {
                         System.out.println("The cities are not valid!");
@@ -128,8 +128,8 @@ public class Cli {
         // Get cities from the user
         cities = readCities();
 
-        // Create CA
-        ca = new CA(cities);
+        // Create UrbanCommunity
+        urbanCommunity = new UrbanCommunity(cities);
 
         // Launch road manager menu
         roadManagerMenu();
