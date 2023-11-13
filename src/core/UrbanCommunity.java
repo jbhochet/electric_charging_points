@@ -1,5 +1,6 @@
 package core;
 
+import exceptions.AccessibilityException;
 import graph.Graph;
 
 public class UrbanCommunity {
@@ -35,11 +36,26 @@ public class UrbanCommunity {
         cities[indexCity].addChargingPoint();
     }
 
-    public void removeChargingPoint(String city) {
+    public void removeChargingPoint(String city) throws AccessibilityException {
         int indexCity = getCityIndex(city);
 
         if (indexCity == -1) {
             throw new IllegalArgumentException("The parameter is not in the list 'cities'");
+        }
+
+        int[] neighbors = graph.neighbors(indexCity);
+        boolean hasNeighborsPossessingChargingPoint = false;
+
+        for (int indexNeighbor : neighbors) {
+            if (cities[indexNeighbor].hasCharginPoint()) {
+                hasNeighborsPossessingChargingPoint = true;
+                break;
+            }
+        }
+
+        if (!hasNeighborsPossessingChargingPoint) {
+            throw new AccessibilityException("You cannot remove the charging point of this city because it does not" +
+                "have a neighbor possessing a charging point");
         }
 
         cities[indexCity].removeChargingPoint();
@@ -54,7 +70,7 @@ public class UrbanCommunity {
     public int getCityIndex(String city) {
         int cityIndex = -1;
         for (int i = 0; i < cities.length; i++) {
-            if (cities[i].getName().equals(city)) {
+            if (cities[i].getName().equalsIgnoreCase(city)) {
                 cityIndex = i;
                 return cityIndex;
             }

@@ -2,6 +2,7 @@ package ui;
 
 import core.UrbanCommunity;
 import core.City;
+import exceptions.AccessibilityException;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -150,6 +151,8 @@ public class Cli {
                         urbanCommunity.removeChargingPoint(city);
                     } catch (IllegalArgumentException err) {
                         System.out.println("The cities are not valid!");
+                    } catch (AccessibilityException err) {
+                        System.out.println("This city does not have a neighbor possessing a charging point!");
                     }
                     break;
                 case 3:
