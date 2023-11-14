@@ -12,7 +12,7 @@ public class City {
         return name;
     }
 
-    public boolean hasCharginPoint() {
+    public boolean hasChargingPoint() {
         return chargingPoint;
     }
 

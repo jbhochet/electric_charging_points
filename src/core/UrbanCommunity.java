@@ -67,7 +67,7 @@ public class UrbanCommunity {
         boolean hasNeighborsPossessingChargingPoint = false;
 
         for (int indexNeighbor : neighbors) {
-            if (cities[indexNeighbor].hasCharginPoint()) {
+            if (cities[indexNeighbor].hasChargingPoint()) {
                 hasNeighborsPossessingChargingPoint = true;
                 break;
             }
@@ -110,7 +110,7 @@ public class UrbanCommunity {
         str.append("Display of the cities from this urban community :\n");
         for (City city : cities) {
             str.append(city.getName()).append(" : ");
-            if (city.hasCharginPoint()) {
+            if (city.hasChargingPoint()) {
                 str.append("does have a charging point\n");
             } else
                 str.append("does not have a charging point\n");
