@@ -108,7 +108,9 @@ public class UrbanCommunity {
     /**
      * Check if this city have a neighbor with a charging point
      * 
-     * @param The index of the city in the cities array
+     * @param indexCity
+     *                 The index of the city in the cities array
+     *
      * @return True if this city have a neighbor with charging point
      */
     private boolean hasNeighborWithChargingPoint(int indexCity) {
