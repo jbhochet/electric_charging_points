@@ -6,14 +6,18 @@ import graph.Graph;
 /**
  * Represents an urban community.
  *
- * <p>It has an attribute named graph of type Graph that stores the connections
+ * <p>
+ * It has an attribute named graph of type Graph that stores the connections
  * between the cities (the roads). It initializes when the constructor is
  * called and create un new Graph object.
  *
- * <p>It has an attribute named cities of type City that stores the cities
+ * <p>
+ * It has an attribute named cities of type City that stores the cities
  * of the urban community in a list.
  *
- * <p>This class can add roads between cities, add or remove a charging point to a city.
+ * <p>
+ * This class can add roads between cities, add or remove a charging point to a
+ * city.
  *
  * @author Jean-Baptiste Hochet
  * @author Pablo Rican
@@ -36,10 +40,11 @@ public class UrbanCommunity {
     /**
      * The constructor of the class UrbanCommunity.
      *
-     * <p>Creates a new UrbanCommunity object with the cities given in parameter.
+     * <p>
+     * Creates a new UrbanCommunity object with the cities given in parameter.
      *
      * @param cities
-     *        The cities in the urban community.
+     *               The cities in the urban community.
      */
     public UrbanCommunity(City[] cities) {
         this.cities = cities;
@@ -49,21 +54,26 @@ public class UrbanCommunity {
     /**
      * Add a road between two cities given in parameter.
      *
-     * <p>If one of the two cities given in parameter is not in the list "cities",
+     * <p>
+     * If one of the two cities given in parameter is not in the list "cities",
      * he method throws an Exception.
      *
-     * <p>If the cities given in parameter are the same cities (they have the same index),
+     * <p>
+     * If the cities given in parameter are the same cities (they have the same
+     * index),
      * the methode throws an Exception.
      *
      * @param city1
-     *        The name of the first city.
+     *              The name of the first city.
      *
      * @param city2
-     *        The name of the second city.
+     *              The name of the second city.
      *
      * @throws IllegalArgumentException
-     *         If one of the two cities given in parameter is not in the list "cities".
-     *         If the cities given in parameter are the same cities (they have the same index).
+     *                                  If one of the two cities given in parameter
+     *                                  is not in the list "cities".
+     *                                  If the cities given in parameter are the
+     *                                  same cities (they have the same index).
      */
     public void addRoad(String city1, String city2) {
         int city1Index = getCityIndex(city1);
@@ -83,7 +93,7 @@ public class UrbanCommunity {
      * Add a charging point to the city whose name is given in parameter.
      *
      * @param city
-     *        The name of the city.
+     *             The name of the city.
      */
     public void addChargingPoint(String city) {
         int indexCity = getCityIndex(city);
@@ -95,19 +105,7 @@ public class UrbanCommunity {
         cities[indexCity].addChargingPoint();
     }
 
-    /**
-     * Remove the charging point to the city whose name is given in parameter.
-     *
-     * @param city
-     *        The name of the city.
-     *
-     * @throws AccessibilityException
-     *         If the city you want to remove the charging point from
-     *         does not have a neighbor possessing a charging point.
-     */
-    public void removeChargingPoint(String city) throws AccessibilityException {
-        int indexCity = getCityIndex(city);
-
+    private boolean hasNeighborWithChargingPoint(int indexCity) {
         if (indexCity == -1) {
             throw new IllegalArgumentException("The parameter is not in the list 'cities'");
         }
@@ -122,10 +120,67 @@ public class UrbanCommunity {
             }
         }
 
-        if (!hasNeighborsPossessingChargingPoint) {
-            throw new AccessibilityException("You cannot remove the charging point of this city because" +
-                "it does not have a neighbor possessing a charging point");
+        return hasNeighborsPossessingChargingPoint;
+    }
+
+    /**
+     * Remove the charging point to the city whose name is given in parameter.
+     *
+     * @param city
+     *             The name of the city.
+     *
+     * @throws AccessibilityException
+     *                                If the city you want to remove the charging
+     *                                point from
+     *                                does not have a neighbor possessing a charging
+     *                                point.
+     */
+    public void removeChargingPoint(String city) throws AccessibilityException {
+        int indexCity = getCityIndex(city);
+
+        if (indexCity == -1) {
+            throw new IllegalArgumentException("The parameter is not in the list 'cities'");
         }
+
+        if (hasNeighborWithChargingPoint(indexCity)) {
+            cities[indexCity].removeChargingPoint();
+            for (int neighbor : graph.neighbors(indexCity)) {
+                if (!cities[neighbor].hasChargingPoint() && !hasNeighborWithChargingPoint(neighbor)) {
+                    cities[indexCity].addChargingPoint();
+                    throw new AccessibilityException("You cannot remove the charging point of this city because " +
+                            "one of its neighbor depends on this city");
+                }
+            }
+        } else {
+            throw new AccessibilityException("You cannot remove the charging point of this city because " +
+                    "it does not have a neighbor possessing a charging point");
+        }
+
+        /*
+         * 
+         * int[] neighbors = graph.neighbors(indexCity);
+         * boolean hasNeighborsPossessingChargingPoint = false;
+         * 
+         * for (int indexNeighbor : neighbors) {
+         * if (cities[indexNeighbor].hasChargingPoint()) {
+         * hasNeighborsPossessingChargingPoint = true;
+         * break;
+         * } else {
+         * int[] ne
+         * for (int index : neighbors) {
+         * 
+         * }
+         * }
+         * }
+         * 
+         * 
+         * if (!hasNeighborsPossessingChargingPoint) {
+         * throw new
+         * AccessibilityException("You cannot remove the charging point of this city because"
+         * +
+         * "it does not have a neighbor possessing a charging point");
+         * }
+         */
 
         cities[indexCity].removeChargingPoint();
     }
@@ -138,11 +193,12 @@ public class UrbanCommunity {
 
     /**
      * Get the index of the city whose name is given in parameter.
-     * If the name of the city given in parameters do not match any of the names of the city in the list cities,
+     * If the name of the city given in parameters do not match any of the names of
+     * the city in the list cities,
      * the method returns -1
      *
      * @param city
-     *        The name of the city.
+     *             The name of the city.
      *
      * @return - The integer -1 if the city does not exist<br>
      *         - The integer of the index else
@@ -162,7 +218,8 @@ public class UrbanCommunity {
     /**
      * toString method of the class UrbanCommunity.
      *
-     * <p>The formatting of the String it returns is as follows :<br>
+     * <p>
+     * The formatting of the String it returns is as follows :<br>
      * NameOfTheCity1 : does (or does not) have a charging point<br>
      * NameOfTheCity2 : does (or does not) have a charging point<br>
      * ...

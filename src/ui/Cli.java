@@ -152,7 +152,7 @@ public class Cli {
                     } catch (IllegalArgumentException err) {
                         System.out.println("The cities are not valid!");
                     } catch (AccessibilityException err) {
-                        System.out.println("This city does not have a neighbor possessing a charging point!");
+                        System.out.println(err.getMessage());
                     }
                     break;
                 case 3:
@@ -180,8 +180,6 @@ public class Cli {
 
         // Launch road manager menu
         roadManagerMenu();
-
-        System.out.println();
 
         urbanCommunity.naiveAlgorithm();
 
