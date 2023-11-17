@@ -105,6 +105,12 @@ public class UrbanCommunity {
         cities[indexCity].addChargingPoint();
     }
 
+    /**
+     * Check if this city have a neighbor with a charging point
+     * 
+     * @param The index of the city in the cities array
+     * @return True if this city have a neighbor with charging point
+     */
     private boolean hasNeighborWithChargingPoint(int indexCity) {
         if (indexCity == -1) {
             throw new IllegalArgumentException("The parameter is not in the list 'cities'");
@@ -155,32 +161,6 @@ public class UrbanCommunity {
             throw new AccessibilityException("You cannot remove the charging point of this city because " +
                     "it does not have a neighbor possessing a charging point");
         }
-
-        /*
-         * 
-         * int[] neighbors = graph.neighbors(indexCity);
-         * boolean hasNeighborsPossessingChargingPoint = false;
-         * 
-         * for (int indexNeighbor : neighbors) {
-         * if (cities[indexNeighbor].hasChargingPoint()) {
-         * hasNeighborsPossessingChargingPoint = true;
-         * break;
-         * } else {
-         * int[] ne
-         * for (int index : neighbors) {
-         * 
-         * }
-         * }
-         * }
-         * 
-         * 
-         * if (!hasNeighborsPossessingChargingPoint) {
-         * throw new
-         * AccessibilityException("You cannot remove the charging point of this city because"
-         * +
-         * "it does not have a neighbor possessing a charging point");
-         * }
-         */
 
         cities[indexCity].removeChargingPoint();
     }
