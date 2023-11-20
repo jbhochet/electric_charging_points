@@ -1,5 +1,6 @@
 package ui;
 
+import core.Algorithm;
 import core.UrbanCommunity;
 import core.City;
 import exceptions.AccessibilityException;
@@ -188,7 +189,8 @@ public class Cli {
                     chargingPointManagerMenu();
                     break;
                 case 2:
-                    urbanCommunity.lessNaiveAlgorithm(100);
+                    Algorithm.addAllChargingPoint(urbanCommunity);
+                    Algorithm.lessNaiveAlgorithm(urbanCommunity, 1000);
                     break;
                 case 3:
                     System.out.println("WIP");
@@ -219,7 +221,7 @@ public class Cli {
             // Launch road manager menu
             roadManagerMenu();
 
-            urbanCommunity.addAllChargingPoint();
+            Algorithm.addAllChargingPoint(urbanCommunity);
         }
 
         mainMenu();

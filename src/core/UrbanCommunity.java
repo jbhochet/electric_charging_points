@@ -186,51 +186,6 @@ public class UrbanCommunity {
         cities[indexCity].removeChargingPoint();
     }
 
-    public void addAllChargingPoint() {
-        for (City city : cities) {
-            city.addChargingPoint();
-        }
-    }
-
-    public void naiveAlgorithm(int numberIteration) throws AccessibilityException {
-        int i = 0;
-        while (i < numberIteration) {
-            int randomIndex = new Random().nextInt(cities.length);
-            City randomCity = cities[randomIndex];
-            if (randomCity.hasChargingPoint()) {
-                removeChargingPoint(randomCity.getName());
-            } else {
-                addChargingPoint(randomCity.getName());
-            }
-            i++;
-        }
-    }
-
-    public void lessNaiveAlgorithm(int numberIteration) {
-        int i = 0;
-        int currentScore = urbanCommunityScore();
-
-        while (i < numberIteration) {
-            int randomIndex = new Random().nextInt(cities.length);
-            City randomCity = cities[randomIndex];
-
-            if (randomCity.hasChargingPoint()) {
-                try {
-                    removeChargingPoint(randomCity.getName());
-                } catch (AccessibilityException ignored) {
-                }
-            } else {
-                addChargingPoint(randomCity.getName());
-            }
-
-            if (urbanCommunityScore() < currentScore) {
-                i = 0;
-                currentScore = urbanCommunityScore();
-            }
-            i++;
-        }
-    }
-
     public int urbanCommunityScore() {
         int score = 0;
         for (City city : cities) {
@@ -265,6 +220,10 @@ public class UrbanCommunity {
         return cityIndex;
     }
 
+    public City[] getCities() {
+        return cities;
+    }
+
     /**
      * toString method of the class UrbanCommunity.
      *
@@ -285,8 +244,25 @@ public class UrbanCommunity {
             str.append(city.getName()).append(" : ");
             if (city.hasChargingPoint()) {
                 str.append("does have a charging point\n");
-            } else
+            } else {
                 str.append("does not have a charging point\n");
+            }
+            for (int i = 0; i < city.getName().length() + 3; i++) {
+                str.append(" ");
+            }
+            int[] neighbors = graph.neighbors(getCityIndex(city.getName()));
+            int numberOfNeighbor = neighbors.length;
+            if (numberOfNeighbor != 0) {
+                if (numberOfNeighbor == 1) {
+                    str.append("Neighbor : ");
+                } else {
+                    str.append("Neighbors : ");
+                }
+                for (int neighborIndex : neighbors) {
+                    str.append(cities[neighborIndex].getName()).append(" ");
+                }
+                str.append("\n");
+            }
         }
 
         return String.valueOf(str);
