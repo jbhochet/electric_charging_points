@@ -24,7 +24,12 @@ public class Cli {
      * @param sc The Scanner instance for reading input.
      */
     public Cli(Scanner sc) {
+        this(sc, null);
+    }
+
+    public Cli(Scanner sc, UrbanCommunity urbanCommunity) {
         this.sc = sc;
+        this.urbanCommunity = urbanCommunity;
     }
 
     /**
@@ -164,25 +169,59 @@ public class Cli {
         System.out.println(urbanCommunity);
     }
 
+    private void mainMenu() {
+        int choice;
+
+        do {
+            System.out.println(urbanCommunity);
+
+            System.out.println("What do you want to do?");
+            System.out.println("1) Resolve manually");
+            System.out.println("2) Resolve automatically");
+            System.out.println("3) Save");
+            System.out.println("4) Finish");
+
+            choice = readInt("Enter your selection:");
+
+            switch (choice) {
+                case 1:
+                    chargingPointManagerMenu();
+                    break;
+                case 2:
+                    urbanCommunity.lessNaiveAlgorithm(100);
+                    break;
+                case 3:
+                    System.out.println("WIP");
+                    break;
+                case 4:
+                    System.out.println("Good bye!");
+                    break;
+                default:
+                    System.out.println("Invalid action!");
+            }
+            System.out.println();
+        } while (choice != 4);
+    }
+
     /**
      * Start the command line interface to interact with the user.
      */
     public void start() {
-        City[] cities;
+        if (urbanCommunity == null) {
+            City[] cities;
 
-        // Get cities from the user
-        cities = readCities();
+            // Get cities from the user
+            cities = readCities();
 
-        // Create UrbanCommunity
-        urbanCommunity = new UrbanCommunity(cities);
+            // Create UrbanCommunity
+            urbanCommunity = new UrbanCommunity(cities);
 
-        // Launch road manager menu
-        roadManagerMenu();
+            // Launch road manager menu
+            roadManagerMenu();
 
-        urbanCommunity.addAllChargingPoint();
-        urbanCommunity.lessNaiveAlgorithm(100);
+            urbanCommunity.addAllChargingPoint();
+        }
 
-        // Launch changing point menu
-        chargingPointManagerMenu();
+        mainMenu();
     }
 }
