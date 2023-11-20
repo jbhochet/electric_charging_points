@@ -3,6 +3,9 @@ package core;
 import exceptions.AccessibilityException;
 import graph.Graph;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 /**
  * Represents an urban community.
  *
@@ -102,6 +105,10 @@ public class UrbanCommunity {
             throw new IllegalArgumentException("The parameter is not in the list 'cities'");
         }
 
+        if (cities[indexCity].hasChargingPoint()) {
+            throw new IllegalArgumentException("This city already has a charging point");
+        }
+
         cities[indexCity].addChargingPoint();
     }
 
@@ -150,14 +157,26 @@ public class UrbanCommunity {
             throw new IllegalArgumentException("The parameter is not in the list 'cities'");
         }
 
+        if (!cities[indexCity].hasChargingPoint()) {
+            throw new IllegalArgumentException("This city has no charging point to remove");
+        }
+
         if (hasNeighborWithChargingPoint(indexCity)) {
             cities[indexCity].removeChargingPoint();
+            ArrayList<Integer> dependentCitiesIndex = new ArrayList<>();
             for (int neighbor : graph.neighbors(indexCity)) {
                 if (!cities[neighbor].hasChargingPoint() && !hasNeighborWithChargingPoint(neighbor)) {
-                    cities[indexCity].addChargingPoint();
-                    throw new AccessibilityException("You cannot remove the charging point of this city because " +
-                            "one of its neighbor depends on this city");
+                    dependentCitiesIndex.add(neighbor);
                 }
+            }
+            cities[indexCity].addChargingPoint();
+            if (!dependentCitiesIndex.isEmpty()) {
+                StringBuilder errorMessage = new StringBuilder("You cannot remove the charging point of this city ");
+                errorMessage.append("because the following(s) neighbor depend(s) on this city :\n");
+                for (int dependentCities : dependentCitiesIndex) {
+                    errorMessage.append("- ").append(cities[dependentCities].getName()).append("\n");
+                }
+                throw new AccessibilityException(errorMessage.toString());
             }
         } else {
             throw new AccessibilityException("You cannot remove the charging point of this city because " +
@@ -167,10 +186,59 @@ public class UrbanCommunity {
         cities[indexCity].removeChargingPoint();
     }
 
-    public void naiveAlgorithm() {
+    public void addAllChargingPoint() {
         for (City city : cities) {
             city.addChargingPoint();
         }
+    }
+
+    public void naiveAlgorithm(int numberIteration) throws AccessibilityException {
+        int i = 0;
+        while (i < numberIteration) {
+            int randomIndex = new Random().nextInt(cities.length);
+            City randomCity = cities[randomIndex];
+            if (randomCity.hasChargingPoint()) {
+                removeChargingPoint(randomCity.getName());
+            } else {
+                addChargingPoint(randomCity.getName());
+            }
+            i++;
+        }
+    }
+
+    public void lessNaiveAlgorithm(int numberIteration) {
+        int i = 0;
+        int currentScore = urbanCommunityScore();
+
+        while (i < numberIteration) {
+            int randomIndex = new Random().nextInt(cities.length);
+            City randomCity = cities[randomIndex];
+
+            if (randomCity.hasChargingPoint()) {
+                try {
+                    removeChargingPoint(randomCity.getName());
+                } catch (AccessibilityException ignored) {
+                }
+            } else {
+                addChargingPoint(randomCity.getName());
+            }
+
+            if (urbanCommunityScore() < currentScore) {
+                i = 0;
+                currentScore = urbanCommunityScore();
+            }
+            i++;
+        }
+    }
+
+    public int urbanCommunityScore() {
+        int score = 0;
+        for (City city : cities) {
+            if (city.hasChargingPoint()) {
+                score++;
+            }
+        }
+        return score;
     }
 
     /**

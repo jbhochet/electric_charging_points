@@ -140,7 +140,7 @@ public class Cli {
                     try {
                         urbanCommunity.addChargingPoint(city);
                     } catch (IllegalArgumentException err) {
-                        System.out.println("The cities are not valid!");
+                        System.out.println(err.getMessage());
                     }
                     break;
                 case 2:
@@ -149,9 +149,7 @@ public class Cli {
                     city = sc.nextLine();
                     try {
                         urbanCommunity.removeChargingPoint(city);
-                    } catch (IllegalArgumentException err) {
-                        System.out.println("The cities are not valid!");
-                    } catch (AccessibilityException err) {
+                    } catch (IllegalArgumentException | AccessibilityException err) {
                         System.out.println(err.getMessage());
                     }
                     break;
@@ -181,7 +179,8 @@ public class Cli {
         // Launch road manager menu
         roadManagerMenu();
 
-        urbanCommunity.naiveAlgorithm();
+        urbanCommunity.addAllChargingPoint();
+        urbanCommunity.lessNaiveAlgorithm(100);
 
         // Launch changing point menu
         chargingPointManagerMenu();
