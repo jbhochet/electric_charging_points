@@ -4,7 +4,7 @@ import exceptions.AccessibilityException;
 import graph.Graph;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.List;
 
 /**
  * Represents an urban community.
@@ -116,7 +116,7 @@ public class UrbanCommunity {
      * Check if this city have a neighbor with a charging point
      * 
      * @param indexCity
-     *                 The index of the city in the cities array
+     *                  The index of the city in the cities array
      *
      * @return True if this city have a neighbor with charging point
      */
@@ -222,6 +222,15 @@ public class UrbanCommunity {
 
     public City[] getCities() {
         return cities;
+    }
+
+    public City[] getNeighbors(String city) {
+        List<City> neighbors = new ArrayList<>();
+        int indexCity = getCityIndex(city);
+        for (int index : graph.neighbors(indexCity)) {
+            neighbors.add(cities[index]);
+        }
+        return neighbors.toArray(new City[neighbors.size()]);
     }
 
     /**
