@@ -3,8 +3,11 @@ package ui;
 import core.Algorithm;
 import core.UrbanCommunity;
 import core.City;
+import core.ConfigParser;
 import exceptions.AccessibilityException;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -193,7 +196,12 @@ public class Cli {
                     Algorithm.lessNaiveAlgorithm(urbanCommunity, 1000);
                     break;
                 case 3:
-                    System.out.println("WIP");
+                    try {
+                        ConfigParser.saveConfigFile(new File("save.ca"), urbanCommunity);
+                        System.out.println("Urban community saved!");
+                    } catch (IOException err) {
+                        System.err.println("Can't access this file!");
+                    }
                     break;
                 case 4:
                     System.out.println("Good bye!");

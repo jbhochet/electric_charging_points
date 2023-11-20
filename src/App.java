@@ -10,7 +10,7 @@ import exceptions.InvalidConfigFileException;
 public class App {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Cli cli = new Cli(sc);
+        Cli cli = null;
 
         if (args.length == 0) {
             cli = new Cli(sc);
