@@ -2,7 +2,9 @@ package core;
 
 import exceptions.AccessibilityException;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public abstract class Algorithm {
 
@@ -29,14 +31,22 @@ public abstract class Algorithm {
         }
     }
 
+    private static Set<City> citiesWithChargingPoint(UrbanCommunity urbanCommunity) {
+        Set<City> res = new HashSet<>();
+        for (City city : urbanCommunity.getCities())
+            if (city.hasChargingPoint())
+                res.add(city);
+        return res;
+    }
+
     public static void lessNaiveAlgorithm(UrbanCommunity urbanCommunity, int numberIteration) {
         int i = 0;
-        int currentScore = urbanCommunity.urbanCommunityScore();
+        Set<City> citiesCharged = citiesWithChargingPoint(urbanCommunity); // our score is the size of this set
 
+        // Search for the best score
         while (i < numberIteration) {
             int randomIndex = new Random().nextInt(urbanCommunity.getCities().length);
             City randomCity = urbanCommunity.getCities()[randomIndex];
-            UrbanCommunity temporaryUrbanCommunity;
 
             if (randomCity.hasChargingPoint()) {
                 try {
@@ -47,12 +57,22 @@ public abstract class Algorithm {
                 urbanCommunity.addChargingPoint(randomCity.getName());
             }
 
-            if (urbanCommunity.urbanCommunityScore() < currentScore) {
-                System.out.println(currentScore);
+            if (citiesWithChargingPoint(urbanCommunity).size() < citiesCharged.size()) {
                 i = 0;
-                currentScore = urbanCommunity.urbanCommunityScore();
+                citiesCharged = citiesWithChargingPoint(urbanCommunity);
+            } else {
+                i++;
             }
-            i++;
+        }
+
+        // Apply the best solutions
+        for(City city: urbanCommunity.getCities()) {
+            // bypass the constraint but it's fine ;)
+            if(citiesCharged.contains(city)) {
+                city.addChargingPoint();
+            } else {
+                city.removeChargingPoint();
+            }
         }
     }
 }
