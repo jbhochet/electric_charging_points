@@ -2,6 +2,7 @@ package core;
 
 import exceptions.AccessibilityException;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -66,12 +67,42 @@ public abstract class Algorithm {
         }
 
         // Apply the best solutions
-        for(City city: urbanCommunity.getCities()) {
+        for (City city : urbanCommunity.getCities()) {
             // bypass the constraint but it's fine ;)
-            if(citiesCharged.contains(city)) {
+            if (citiesCharged.contains(city)) {
                 city.addChargingPoint();
             } else {
                 city.removeChargingPoint();
+            }
+        }
+    }
+
+    private static City[] sortCitiesByDegree(UrbanCommunity urbanCommunity, City[] city, boolean decr) {
+        City[] res = urbanCommunity.getCities().clone();
+        Arrays.sort(res, (x, y) -> {
+            int degreeX = urbanCommunity.getNeighbors(x.getName()).length;
+            int degreeY = urbanCommunity.getNeighbors(y.getName()).length;
+            if (decr)
+                return degreeY - degreeX;
+            else
+                return degreeX - degreeY;
+        });
+
+        return res;
+    }
+
+    public static void algoOpti(UrbanCommunity urbanCommunity) {
+        City[] cities = sortCitiesByDegree(urbanCommunity, urbanCommunity.getCities(), true);
+
+        for (City city : cities) {
+            City[] neighbors = sortCitiesByDegree(urbanCommunity, urbanCommunity.getNeighbors(city.getName()), false);
+            for (City neighbor : neighbors) {
+                if (neighbor.hasChargingPoint()) {
+                    try {
+                        urbanCommunity.removeChargingPoint(neighbor.getName());
+                    } catch (AccessibilityException ignored) {
+                    }
+                }
             }
         }
     }

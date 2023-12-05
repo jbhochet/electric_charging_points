@@ -193,7 +193,7 @@ public class Cli {
                     break;
                 case 2:
                     Algorithm.addAllChargingPoint(urbanCommunity);
-                    Algorithm.lessNaiveAlgorithm(urbanCommunity, 1000);
+                    Algorithm.algoOpti(urbanCommunity);
                     break;
                 case 3:
                     try {
