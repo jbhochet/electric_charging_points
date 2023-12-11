@@ -196,9 +196,20 @@ public class Cli {
                     Algorithm.algoOpti(urbanCommunity);
                     break;
                 case 3:
+                    // get the file name
+                    String filename;
+                    do {
+                        System.out.println("Enter the name of the file: ");
+                        filename = sc.nextLine();
+                        if (filename.length() == 0) {
+                            System.out.println("The file name could not be empty!");
+                            filename = null;
+                        }
+                    } while (filename == null);
+                    // save to the file
                     try {
-                        ConfigParser.saveConfigFile(new File("save.ca"), urbanCommunity);
-                        System.out.println("Urban community saved!");
+                        ConfigParser.saveConfigFile(new File(filename), urbanCommunity);
+                        System.out.printf("Urban community saved in '%s'!%n", filename);
                     } catch (IOException err) {
                         System.err.println("Can't access this file!");
                     }
