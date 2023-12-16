@@ -10,4 +10,4 @@ rm -rf bin
 javac -d bin --source-path src src/App.java
 
 # build jar file
-jar --create --file projet_paa.jar --main-class App -C bin/ .
+jar --create --file project_paa.jar --main-class App -C bin/ .
