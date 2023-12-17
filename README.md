@@ -17,6 +17,7 @@ line arguments)
 ## ✅ Requirements
 
 - OpenJDK 17
+- [GraphViz](https://graphviz.org) (optional, for display the urban community)
 
 ## 🏁 Quick start
 
@@ -31,9 +32,11 @@ The main method is in the class App.
 
 ### 📦 Build the jar
 
-- Get the source code on your machine
-- Run the `build.bash`
-- Run the generated jar with `java -jar project_paa.jar`
+- Follow the step in the previous part.
+- Create the jar file with `jar --create --file project_paa.jar --main-class App -C bin/ .`.
+- Run the jar with `java -jar project_paa.jar`.
 
+## 📖 Generate the JavaDoc
 
-
+- Generate the javadoc with `javadoc -d doc --source-path src core exceptions graph ui`.
+- Open `index.html` in the doc directory.
