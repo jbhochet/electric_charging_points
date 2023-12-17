@@ -4,7 +4,9 @@ import exceptions.AccessibilityException;
 import graph.Graph;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Represents an urban community.
@@ -231,6 +233,28 @@ public class UrbanCommunity {
             neighbors.add(cities[index]);
         }
         return neighbors.toArray(new City[neighbors.size()]);
+    }
+
+    public String toDot() {
+        Set<City> visited = new HashSet<>();
+        StringBuffer sb = new StringBuffer();
+        sb.append("graph {\n");
+        // add city
+        for (City city : cities) {
+            sb.append(city.getName());
+            if (city.hasChargingPoint()) {
+                sb.append(" [style=filled, fillcolor=blue, fontcolor=white]");
+            }
+            sb.append("\n");
+            // add neighbors
+            for (City neighbors : getNeighbors(city.getName())) {
+                if (!visited.contains(neighbors))
+                    sb.append(String.format("%s -- %s%n", city.getName(), neighbors.getName()));
+            }
+            visited.add(city);
+        }
+        sb.append("}");
+        return sb.toString();
     }
 
     /**

@@ -173,6 +173,9 @@ public class Cli {
         System.out.println(urbanCommunity);
     }
 
+    /**
+     * Lets the user choose what to do.
+     */
     private void mainMenu() {
         int choice;
 
@@ -183,7 +186,8 @@ public class Cli {
             System.out.println("1) Resolve manually");
             System.out.println("2) Resolve automatically");
             System.out.println("3) Save");
-            System.out.println("4) Finish");
+            System.out.println("4) Show urban community");
+            System.out.println("5) Finish");
 
             choice = readInt("Enter your selection:");
 
@@ -215,13 +219,16 @@ public class Cli {
                     }
                     break;
                 case 4:
+                    GraphVizUtil.displayGraph(urbanCommunity.toDot());
+                    break;
+                case 5:
                     System.out.println("Good bye!");
                     break;
                 default:
                     System.out.println("Invalid action!");
             }
             System.out.println();
-        } while (choice != 4);
+        } while (choice != 5);
     }
 
     /**

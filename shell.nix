@@ -1,4 +1,4 @@
 { pkgs ? import <nixpkgs> { } }:
 pkgs.mkShell {
-  nativeBuildInputs = with pkgs.buildPackages; [ jdk17 ];
+  nativeBuildInputs = with pkgs.buildPackages; [ jdk17 graphviz ];
 }
