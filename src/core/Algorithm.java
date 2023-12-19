@@ -9,12 +9,26 @@ import java.util.Set;
 
 public abstract class Algorithm {
 
+    /**
+     * The first and most naive solution to solve the problem. Add a charging point
+     * in each city.
+     * 
+     * @param urbanCommunity The urban community.
+     */
     public static void addAllChargingPoint(UrbanCommunity urbanCommunity) {
         for (City city : urbanCommunity.getCities()) {
             city.addChargingPoint();
         }
     }
 
+    /**
+     * Another solution to resolve the problem, remove charging points from a random
+     * city at each iteration.
+     * 
+     * @param urbanCommunity  The urban community.
+     * @param numberIteration The number of iterations, higher than the number of
+     *                        cities is recommended.
+     */
     public static void naiveAlgorithm(UrbanCommunity urbanCommunity, int numberIteration) {
         int i = 0;
         while (i < numberIteration) {
@@ -32,6 +46,12 @@ public abstract class Algorithm {
         }
     }
 
+    /**
+     * Returns the list of city in the urban community who had a charging point.
+     * 
+     * @param urbanCommunity The urban community
+     * @return The list of cities
+     */
     private static Set<City> citiesWithChargingPoint(UrbanCommunity urbanCommunity) {
         Set<City> res = new HashSet<>();
         for (City city : urbanCommunity.getCities())
@@ -40,6 +60,14 @@ public abstract class Algorithm {
         return res;
     }
 
+    /**
+     * An improved version of naiveAlgorithm. We take the result with the minimal
+     * number of charging points.
+     * 
+     * @param urbanCommunity  The urban community.
+     * @param numberIteration The number of iterations, higher than the number of
+     *                        cities is recommended.
+     */
     public static void lessNaiveAlgorithm(UrbanCommunity urbanCommunity, int numberIteration) {
         int i = 0;
         Set<City> citiesCharged = citiesWithChargingPoint(urbanCommunity); // our score is the size of this set
@@ -77,6 +105,14 @@ public abstract class Algorithm {
         }
     }
 
+    /**
+     * Sorts cities by degree and choose the order.
+     * 
+     * @param urbanCommunity The urban community.
+     * @param city           The cities array to sort.
+     * @param decr           If true, the array is sorted in the descending order.
+     * @return
+     */
     private static City[] sortCitiesByDegree(UrbanCommunity urbanCommunity, City[] city, boolean decr) {
         City[] res = urbanCommunity.getCities().clone();
         Arrays.sort(res, (x, y) -> {
@@ -91,6 +127,10 @@ public abstract class Algorithm {
         return res;
     }
 
+    /**
+     * A better solution to find the solution. It's use a heuristic.
+     * @param urbanCommunity The urban community.
+     */
     public static void algoOpti(UrbanCommunity urbanCommunity) {
         City[] cities = sortCitiesByDegree(urbanCommunity, urbanCommunity.getCities(), true);
 
