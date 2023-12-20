@@ -1,6 +1,5 @@
 package ui;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,7 +32,7 @@ public class GraphVizUtil {
      * @throws IOException
      */
     private static File getImageOutput() throws IOException {
-        File file = File.createTempFile("paa_img", ".png");
+        File file = File.createTempFile("paa_img", ".svg");
         file.deleteOnExit();
         return file;
     }
@@ -66,7 +65,7 @@ public class GraphVizUtil {
      * @throws InterruptedException
      */
     private static void generateImage(File dotFile, File outFile) throws IOException, InterruptedException {
-        String command = String.format("dot -Tpng %s", dotFile.getAbsolutePath());
+        String command = String.format("dot -Tsvg %s", dotFile.getAbsolutePath());
         Process p = Runtime.getRuntime().exec(command);
         int exitCode = p.waitFor();
         if (exitCode != 0)
