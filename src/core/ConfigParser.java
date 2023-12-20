@@ -89,7 +89,6 @@ public class ConfigParser {
                     try {
                         cities.add(new City(parseCity(line)));
                     } catch (InvalidConfigFileException err) {
-                        System.err.println(err);
                         urbanCommunity = new UrbanCommunity(cities.toArray(new City[cities.size()]));
                         i++;
                     }
