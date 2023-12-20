@@ -4,9 +4,11 @@ import exceptions.AccessibilityException;
 import graph.Graph;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Represents an urban community.
@@ -271,33 +273,35 @@ public class UrbanCommunity {
      */
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder();
-        str.append("Display of the cities from this urban community :\n");
+        StringBuffer sb = new StringBuffer();
+        int charged = 0;
+
+        // display cities
+        sb.append("Display of the cities from this urban community :\n");
         for (City city : cities) {
-            str.append(city.getName()).append(" : ");
+            // Display city
+            sb.append(city.getName()).append(" : ");
+            // display the charge status of the city
             if (city.hasChargingPoint()) {
-                str.append("does have a charging point\n");
+                charged++;
+                sb.append("does have a charging point\n");
             } else {
-                str.append("does not have a charging point\n");
+                sb.append("does not have a charging point\n");
             }
-            for (int i = 0; i < city.getName().length() + 3; i++) {
-                str.append(" ");
-            }
-            int[] neighbors = graph.neighbors(getCityIndex(city.getName()));
-            int numberOfNeighbor = neighbors.length;
-            if (numberOfNeighbor != 0) {
-                if (numberOfNeighbor == 1) {
-                    str.append("Neighbor : ");
-                } else {
-                    str.append("Neighbors : ");
-                }
-                for (int neighborIndex : neighbors) {
-                    str.append(cities[neighborIndex].getName()).append(" ");
-                }
-                str.append("\n");
+
+            // display neighbors
+            City[] neighbors = getNeighbors(city.getName());
+            if (neighbors.length > 0) {
+                sb.append("\t > ");
+                sb.append((neighbors.length == 1) ? "Neighbor: ": "Neighbors: ");
+                sb.append((Arrays.stream(neighbors).map(c->c.getName()).collect(Collectors.joining(", "))));
+                sb.append("\n");
             }
         }
 
-        return String.valueOf(str);
+        // display the number of charged cities
+        sb.append("Total charged: ").append(charged).append('\n');
+
+        return sb.toString();
     }
 }
