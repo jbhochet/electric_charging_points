@@ -173,6 +173,42 @@ public class Cli {
         System.out.println(urbanCommunity);
     }
 
+    private void chooseAlgo() {
+        int choice;
+        int nbIter;
+
+        do {
+            System.out.println("Which algo do you want to use?");
+            System.out.println("1) Naive algo");
+            System.out.println("2) Less naive algo");
+            System.out.println("3) More optimized algo");
+            System.out.println("4) Finish");
+
+            choice = readInt("Enter your selection:");
+
+            switch (choice) {
+                case 1:
+                    Algorithm.addAllChargingPoint(urbanCommunity);
+                    nbIter = readInt("How many iterations?");
+                    Algorithm.naiveAlgorithm(urbanCommunity, nbIter);
+                    break;
+                case 2:
+                    Algorithm.addAllChargingPoint(urbanCommunity);
+                    nbIter = readInt("How many iterations?");
+                    Algorithm.lessNaiveAlgorithm(urbanCommunity, nbIter);
+                    break;
+                case 3:
+                    Algorithm.addAllChargingPoint(urbanCommunity);
+                    Algorithm.algoOpti(urbanCommunity);
+                    break;
+                default:
+                    System.out.println("Invalid action!");
+            }
+
+            System.out.println();
+        } while (choice < 1 || choice > 4);
+    }
+
     /**
      * Lets the user choose what to do.
      */
@@ -196,8 +232,7 @@ public class Cli {
                     chargingPointManagerMenu();
                     break;
                 case 2:
-                    Algorithm.addAllChargingPoint(urbanCommunity);
-                    Algorithm.algoOpti(urbanCommunity);
+                    chooseAlgo();
                     break;
                 case 3:
                     // get the file name

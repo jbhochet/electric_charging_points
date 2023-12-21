@@ -129,19 +129,17 @@ public abstract class Algorithm {
 
     /**
      * A better solution to find the solution. It's use a heuristic.
+     * 
      * @param urbanCommunity The urban community.
      */
     public static void algoOpti(UrbanCommunity urbanCommunity) {
-        City[] cities = sortCitiesByDegree(urbanCommunity, urbanCommunity.getCities(), true);
+        City[] cities = sortCitiesByDegree(urbanCommunity, urbanCommunity.getCities(), false);
 
         for (City city : cities) {
-            City[] neighbors = sortCitiesByDegree(urbanCommunity, urbanCommunity.getNeighbors(city.getName()), false);
-            for (City neighbor : neighbors) {
-                if (neighbor.hasChargingPoint()) {
-                    try {
-                        urbanCommunity.removeChargingPoint(neighbor.getName());
-                    } catch (AccessibilityException ignored) {
-                    }
+            if (city.hasChargingPoint()) {
+                try {
+                    urbanCommunity.removeChargingPoint(city.getName());
+                } catch (AccessibilityException ignored) {
                 }
             }
         }
