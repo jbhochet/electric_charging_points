@@ -237,6 +237,25 @@ public class UrbanCommunity {
         return neighbors.toArray(new City[neighbors.size()]);
     }
 
+    /**
+     * Returns true if the urban community is valid.
+     */
+    public boolean isValid() {
+        for(City city: cities) {
+            if(!city.hasChargingPoint()) {
+                boolean charged = false;
+                for(City neighbor: getNeighbors(city.getName())) {
+                    if(neighbor.hasChargingPoint()) {
+                        charged = true;
+                        break;
+                    }
+                }
+                if(!charged) return false;
+            }
+        }
+        return true;
+    }
+
     public String toDot() {
         Set<City> visited = new HashSet<>();
         StringBuffer sb = new StringBuffer();

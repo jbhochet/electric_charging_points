@@ -229,6 +229,8 @@ public class Cli {
 
             switch (choice) {
                 case 1:
+                    if (!urbanCommunity.isValid())
+                        Algorithm.addAllChargingPoint(urbanCommunity);
                     chargingPointManagerMenu();
                     break;
                 case 2:
