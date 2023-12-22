@@ -87,6 +87,10 @@ public class GraphVizUtil {
             File dotFile = saveDotFile(dot);
             File outFile = getImageOutput();
             generateImage(dotFile, outFile);
+            if(!Desktop.isDesktopSupported()){
+                System.out.println("Warning: Desktop is not suported.");
+                return;
+            }
             Desktop.getDesktop().open(outFile);
         } catch (IOException | InterruptedException e) {
             System.out.println("Warning: can't show the graph!");
